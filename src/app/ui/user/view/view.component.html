@@ -1,0 +1,46 @@
+<div class="jumbotron">
+  <div class="container">
+    <h2>View Users</h2>
+    <form>
+      <div class="row">
+          <div class="col-md-4">
+             <div class="form-group">
+              <input type="text" name="searchTermText" [(ngModel)]="searchTermText" placeholder="Search Here"/>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <div class="row">
+                  <div class="col-md-2"></div>
+                <div class="col-md-2">
+                    <label for="Sort">Sort:</label>
+                </div>
+                <div class="col-md-6">
+                  <button type="button" class="label label-info" (click)="SortUsers('FirstName')">First Name</button>
+                  <button type="button" class="label label-info" (click)="SortUsers('LastName')">Last Name</button>
+                  <button type="button" class="label label-info" (click)="SortUsers('EmployeeID')">EmployeeID</button>
+                </div>
+            </div>
+            </div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+            <ul class="list-group">
+              <li class="list-group-item" *ngFor="let user of userservice.userList | userFilter : searchTermText | userSortby: {property: colValue, direction: direction}">
+                {{user.FirstName}} {{user.LastName}} {{user.EmployeeID}}
+              <div class="row">
+                <div class="col-md-3">
+                  <button type="button" class="btn btn-info btn-sm" (click)="editUser(user)">Edit</button>
+                </div>
+                <div class="col-md-3">
+                  <button type="button" class="btn btn-secondary btn-sm" (click)="deleteUser(user.UserID)">Delete</button>
+                </div>
+              </div>
+              </li>
+            </ul>
+          </div>
+      </div>
+   </form>
+  </div>
+  </div>

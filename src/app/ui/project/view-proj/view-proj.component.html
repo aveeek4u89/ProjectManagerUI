@@ -1,0 +1,70 @@
+<div class="jumbotron">
+  <div class="container">
+    <h2>View Project</h2>
+    <form>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <input type="text" name="searchTermText" [(ngModel)]="searchTermText" placeholder="Search Here" />
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-2">
+                <label for="Sort">Sort:</label>
+              </div>
+              <div class="col-md-5">
+                <button type="button" class="label label-info" (click)="SortProjects('StartDate')">Start Date</button>
+                <button type="button" class="label label-info" (click)="SortProjects('EndDate')">End Date</button>
+                <button type="button" class="label label-info" (click)="SortProjects('Priority')">Priority</button>
+                <button type="button" class="label label-info" (click)="SortProjects('Completed')">Completed</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let proj of projService.projectList | projectFilter : searchTermText | projectSortby: {property: colValue, direction: direction}">
+              <div class="row">
+                <div class="col-md-9">
+                  Project: {{proj.ProjectName}}
+                </div>
+                <div class="col-md-3">
+                  Priority:{{proj.Priority}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  No. of tasks: {{proj.NoOfTasks}}
+                </div>
+                <div class="col-md-4">
+                  Completed: {{proj.CompletedTasks}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  Start Date: {{proj.StartDate | date: 'dd/MM/yyyy'}}
+                </div>
+                <div class="col-md-4">
+                  End Date: {{proj.EndDate| date: 'dd/MM/yyyy'}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <button type="button" [disabled]='!proj.ISActive' class="btn btn-info btn-sm" (click)="editProject(proj)">Edit</button>
+                </div>
+                <div class="col-md-3">
+                  <button type="button" [disabled]='!proj.ISActive' class="btn btn-secondary btn-sm" (click)="suspendProject(proj)">Suspend</button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

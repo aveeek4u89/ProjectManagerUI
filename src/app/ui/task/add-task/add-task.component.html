@@ -1,0 +1,218 @@
+<div class="jumbotron">
+  <div class="container">
+    <form name="form" (ngSubmit)="onSubmit(f)" #f="ngForm">
+      <div class="row">
+        <div class="col-md-6">
+          <h3>{{SubmitButtonName}} Task</h3>
+          <input type="hidden" name="ISActive" [(ngModel)]="taskService.selectedTask.ISActive" #isactive="ngModel" />
+          <input type="hidden" name="ProjectID" [(ngModel)]="taskService.selectedTask.ProjectID" #ProjectID="ngModel" />
+          <input type="hidden" name="UserID" [(ngModel)]="taskService.selectedTask.UserID" #UserID="ngModel" />
+          <input type="hidden" name="ParentTaskID" [(ngModel)]="taskService.selectedTask.ParentTaskID" #ParentTaskID="ngModel" />
+          <input type="hidden" name="TaskID" [(ngModel)]="taskService.selectedTask.TaskID" #TaskID="ngModel" />
+          <!-- <input type="hidden" name="ParentTaskID" [(ngModel)]="parentTaskService.selectedParentTask.ParentTaskID"
+            #ParentTaskID="ngModel" /> -->
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="ProjectName">Project:</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <input type="text" class="form-control" disabled="disabled" name="ProjectName" [(ngModel)]="taskService.selectedTask.ProjectName"
+                  #ProjectName="ngModel" />
+              </div>
+              <div class="col-md-6">
+                <button [disabled]="chkEnable.checked" type="button" class="btn" value="Search" data-toggle="modal"
+                  data-target="#projectsModal" (click)="showProjectList()">
+                  Search
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="TaskName">Task</label>
+            <!-- <input [disabled]="!chkEnable.checked" [hidden]="!chkEnable.checked" type="text" class="form-control" name="ParentTaskName"
+              [(ngModel)]="taskService.selectedTask.ParentTaskName" #parentTaskName="ngModel" required />
+            <div *ngIf="parentTaskName.invalid && parentTaskName.touched" class="invalid-feedback validator">
+              <div *ngIf="parentTaskName.errors.required">Parent Task is required</div>
+            </div> -->
+            <input [disabled]="chkEnable.checked" type="text" class="form-control" name="TaskName"
+              [(ngModel)]="taskService.selectedTask.TaskName" #TaskName="ngModel" required />
+            <div *ngIf="TaskName.invalid && TaskName.touched" class="invalid-feedback validator">
+              <div *ngIf="TaskName.errors.required">Task is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <input name="chkBox" type="checkbox" #chkEnable ngModel (change)="setParentTask($event)" />
+            <label for="chkBox">Parent Task</label>
+          </div>
+          <div class="form-group">
+            <label for="priority">Priority {{taskService.selectedTask.Priority}}</label>
+            <input [disabled]="chkEnable.checked" type="range" min="0" max="30" value="10" class="slider" name="Priority"
+              [(ngModel)]="taskService.selectedTask.Priority" #priority="ngModel" required />
+            <div *ngIf="priority.invalid && priority.touched" class="invalid-feedback validator">
+              <div *ngIf="priority.errors.required">Parent Task is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="ParentTaskID">Parent Task:</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <input [disabled]="!chkEnable.checked" type="text" class="form-control" disabled="disabled" name="ParentTaskName" [(ngModel)]="taskService.selectedTask.ParentTaskName"
+                  #ParentTaskID="ngModel" />
+              </div>
+              <div class="col-md-6">
+                <button [disabled]="chkEnable.checked" type="button" class="btn" value="Search" data-toggle="modal"
+                  data-target="#parentTasksModal" (click)="showParentTaskList()">
+                  Search
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="StartDate">Start Date</label>
+            <input [disabled]="chkEnable.checked" type="text" onfocus="this.type='date'" class="form-control" name="StartDate"
+              [(ngModel)]="taskService.selectedTask.StartDate" #startDate="ngModel" required />
+            <div *ngIf="startDate.invalid && startDate.touched" class="invalid-feedback validator">
+              <div *ngIf="startDate.errors.required">Start Date is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="EndDate">End Date</label>
+            <input [disabled]="chkEnable.checked" type="text" onfocus="this.type='date'" class="form-control" name="EndDate"
+              [(ngModel)]="taskService.selectedTask.EndDate" #endDate="ngModel" required />
+            <div *ngIf="endDate.invalid && endDate.touched" class="invalid-feedback validator">
+              <div *ngIf="endDate.errors.required">End Date is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="UserName">User:</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <input type="text" class="form-control" disabled="disabled" name="UserName" [(ngModel)]="taskService.selectedTask.UserName"
+                  #userName="ngModel" />
+              </div>
+              <div class="col-md-6">
+                <button [disabled]="chkEnable.checked" type="button" class="btn" value="Search" data-toggle="modal"
+                  data-target="#usersModal" (click)="showUserList()">
+                  Search
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <div class="form-group">
+            <button [disabled]="f.invalid" class="btn btn-primary">{{SubmitButtonName}}</button>
+
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <input type="reset" class="btn btn-secondary" value="Reset" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- The User Modal -->
+<div class="modal" id="usersModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Search User</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-7">
+            <input class="form-control" name="searchUserText" [(ngModel)]="searchUserText" placeholder="Search User" />
+          </div>
+        </div>
+        <div class="row top-buffer" *ngFor="let user of userService.userList | userFilter : searchUserText">
+          <div class="col-md-7">
+            <div class="list-group">
+              <button type="button" class="list-group-item" data-dismiss="modal" (click)="retreiveUser(user)">{{user.FirstName}}
+                {{user.LastName}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- The Project Modal -->
+<div class="modal" id="projectsModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Search Project</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-7">
+            <input class="form-control" name="searchProjectText" [(ngModel)]="searchProjectText" placeholder="Search Project" />
+          </div>
+        </div>
+        <div class="row top-buffer" *ngFor="let project of projectService.projectList | projectFilter : searchProjectText">
+          <div class="col-md-7">
+            <div class="list-group">
+              <button type="button" class="list-group-item" data-dismiss="modal" (click)="retreiveProject(project)">{{project.ProjectName}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- The Parent Task Modal -->
+<div class="modal" id="parentTasksModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Search Parent Task</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-7">
+            <input class="form-control" name="searchParentTaskText" [(ngModel)]="searchParentTaskText" placeholder="Search Parent Task" />
+          </div>
+        </div>
+        <div class="row top-buffer" *ngFor="let pTask of parentTaskService.parentTaskList | parentTaskFilter : searchParentTaskText">
+          <div class="col-md-7">
+            <div class="list-group">
+              <button type="button" class="list-group-item" data-dismiss="modal" (click)="retreiveParentTask(pTask)">{{pTask.ParentTaskName}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Done</button>
+      </div>
+    </div>
+  </div>
+</div>

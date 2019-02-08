@@ -1,0 +1,23 @@
+<div style="text-align:center">
+  <h1>Project Manager</h1>
+  <!-- <nav>
+    <a [routerLink]="'addProject'">Add Project</a> |
+    <a [routerLink]="'addTask'">Add Task</a> |
+    <a [routerLink]="'addUser'">Add User</a> |
+    <a [routerLink]="'viewProject'">View Task</a>
+  </nav> -->
+  <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Project Manager</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li><a [routerLink]="'addProject'">Add Project</a></li>
+          <li><a [routerLink]="'addTask'">Add Task</a></li>
+          <li><a [routerLink]="'addUser'">Add User</a></li>
+          <li><a [routerLink]="'viewTask'">View Task</a></li>
+        </ul>
+      </div>
+    </nav>
+</div>
+<router-outlet></router-outlet>

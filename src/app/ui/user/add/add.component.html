@@ -1,0 +1,53 @@
+<div class="jumbotron">
+    <div class="container">
+        <form name="form" (ngSubmit)="onSubmit(f)" #f="ngForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="hidden" name="UserID" [(ngModel)]="user.selectedUser.UserID" #userID="ngModel" />
+                        <label for="firstName">First Name:</label>
+                        <input type="text" class="form-control" name="firstName" [(ngModel)]="user.selectedUser.FirstName"
+                            #firstName="ngModel" required />
+                        <div *ngIf="firstName.invalid && firstName.touched" class="invalid-feedback validator">
+                            <div *ngIf="firstName.errors.required">First Name is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name:</label>
+                        <input type="text" class="form-control" name="lastName" [(ngModel)]="user.selectedUser.LastName"
+                            #lastName="ngModel" required />
+                        <div *ngIf="lastName.invalid && lastName.touched" class="invalid-feedback validator">
+                            <div *ngIf="lastName.errors.required">Last Name is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="employeeID">Employee ID:</label>
+                        <input type="text" class="form-control" name="employeeID" [(ngModel)]="user.selectedUser.EmployeeID"
+                            #employeeID="ngModel" required />
+                        <div *ngIf="employeeID.invalid && employeeID.touched" class="invalid-feedback validator">
+                            <div *ngIf="employeeID.errors.required">Employee ID is required</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <button [disabled]="f.invalid" class="btn btn-primary">{{SubmitButtonName}}</button>
+
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <input type="reset" class="btn btn-secondary" value="Reset">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

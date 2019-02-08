@@ -1,0 +1,112 @@
+<div class="jumbotron">
+  <div class="container">
+    <form name="form" (ngSubmit)="onSubmit(f)" #f="ngForm">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="hidden" name="ISActive" [(ngModel)]="projectService.selectedProject.ISActive" #isactive="ngModel" />
+            <input type="hidden" name="ProjectID" [(ngModel)]="projectService.selectedProject.ProjectID" #ProjectID="ngModel" />
+            <input type="hidden" name="EmployeeID" [(ngModel)]="projectService.selectedProject.EmployeeID" #EmployeeID="ngModel" />
+            <label for="ProjectName">Project Name:</label>
+            <input type="text" class="form-control" name="ProjectName" [(ngModel)]="projectService.selectedProject.ProjectName"
+              #ProjectName="ngModel" required />
+            <div *ngIf="ProjectName.invalid && ProjectName.touched" class="invalid-feedback validator">
+              <div *ngIf="ProjectName.errors.required">Project is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <input name="chkBox" type="checkbox" #chkEnable ngModel (change)="fixDateRange($event)" />
+            <label for="chkBox">Set start and end date</label>
+          </div>
+          <div class="form-group">
+            <label for="StartDate">Start Date:</label>
+            <input type="text" onfocus="this.type='date'" class="form-control" name="StartDate" [(ngModel)]="projectService.selectedProject.StartDate"
+              [disabled]="!chkEnable.checked" #StartDate="ngModel" required />
+            <div *ngIf="StartDate.invalid && StartDate.touched" class="invalid-feedback validator">
+              <div *ngIf="StartDate.errors.required">Start Date is required</div>
+            </div>
+
+            <label for="EndDate">End_Date:</label>
+            <input type="text" onfocus="this.type='date'" class="form-control" name="EndDate" [(ngModel)]="projectService.selectedProject.EndDate"
+              [disabled]="!chkEnable.checked" #EndDate="ngModel" required />
+            <div *ngIf="EndDate.invalid && EndDate.touched" class="invalid-feedback validator">
+              <div *ngIf="EndDate.errors.required">End Date is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="priority">Priority {{projectService.selectedProject.Priority}}</label>
+            <input type="range" min="0" max="30" value="0" class="slider" name="priority" [(ngModel)]="projectService.selectedProject.Priority"
+              #priority="ngModel" required />
+            <div *ngIf="priority.invalid && priority.touched" class="invalid-feedback validator">
+              <div *ngIf="priority.errors.required">Priority is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="ManagerName">Manager:</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <input type="text" class="form-control" disabled="disabled" name="ManagerName" [(ngModel)]="projectService.selectedProject.ManagerName"
+                  #ManagerName="ngModel" />
+              </div>
+              <div class="col-md-6">
+                <button type="button" class="btn" value="Search" data-toggle="modal" data-target="#usersModal" (click)="showUserList()">
+                  Search
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <div class="form-group">
+            <button [disabled]="f.invalid" class="btn btn-primary">{{SubmitButtonName}}</button>
+
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <input type="reset" class="btn btn-secondary" value="Reset">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- The Modal -->
+<div class="modal" id="usersModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Search User</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-7">
+            <input class="form-control" name="searchUserText" [(ngModel)]="searchUserText" placeholder="Search..." />
+          </div>
+        </div>
+        <div class="row top-buffer" *ngFor="let user of userService.userList | userFilter : searchUserText">
+          <div class="col-md-7">
+            <div class="list-group">
+              <button type="button" class="list-group-item" data-dismiss="modal" (click)="retreiveUser(user)">{{user.FirstName}}
+                {{user.LastName}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
